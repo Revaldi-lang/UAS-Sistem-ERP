@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- View Kanban untuk Dashboard KPI -->
+    <record id="view_kemuning_kpi_kanban" model="ir.ui.view">
+        <field name="name">kemuning.kpi.kanban</field>
+        <field name="model">kemuning.kpi</field>
+        <field name="arch" type="xml">
+            <kanban create="false" delete="false" edit="false" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="value_text"/>
+                <field name="category"/>
+                <field name="icon"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record d-flex flex-column justify-content-between p-3 border rounded shadow-sm bg-white" 
+                             style="width: 280px; min-height: 140px; margin: 10px; border-left: 5px solid #714B67 !important;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge rounded-pill text-bg-info text-white" style="font-size: 0.75rem;">
+                                    <field name="category"/>
+                                </span>
+                                <i t-attf-class="fa #{record.icon.raw_value or 'fa-line-chart'} text-muted" style="font-size: 1.5rem;"/>
+                            </div>
+                            <div class="my-2">
+                                <h6 class="text-uppercase text-muted fw-bold mb-1" style="font-size: 0.8rem; letter-spacing: 0.5px;">
+                                    <field name="name"/>
+                                </h6>
+                                <h3 class="fw-bold text-dark my-1" style="font-size: 1.6rem; color: #714B67 !important;">
+                                    <field name="value_text"/>
+                                </h3>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center mt-2">
+                                <small class="text-muted"><i class="fa fa-refresh"/> Terupdate otomatis</small>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Tampilan List Pendukung jika User Ingin Melihat dalam Bentuk Tabel -->
+    <record id="view_kemuning_kpi_list" model="ir.ui.view">
+        <field name="name">kemuning.kpi.list</field>
+        <field name="model">kemuning.kpi</field>
+        <field name="arch" type="xml">
+            <tree string="Daftar Indikator KPI" create="false" delete="false" edit="false">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="value_text" string="Nilai Saat Ini"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- View Graph untuk Dashboard KPI -->
+    <record id="view_kemuning_kpi_graph" model="ir.ui.view">
+        <field name="name">kemuning.kpi.graph</field>
+        <field name="model">kemuning.kpi</field>
+        <field name="arch" type="xml">
+            <graph string="Grafik Indikator KPI" type="bar" sample="1">
+                <field name="name" type="row"/>
+                <field name="value_num" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action Window Dashboard KPI -->
+    <record id="action_kemuning_kpi_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard KPI Toko Bunga</field>
+        <field name="res_model">kemuning.kpi</field>
+        <field name="view_mode">kanban,graph,tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Dashboard sedang dimuat.
+            </p>
+            <p>
+                Metrik akan terkalkulasi secara otomatis saat ada transaksi penjualan, lot masuk, dan modifikasi data produk.
+            </p>
+        </field>
+    </record>
+</odoo>

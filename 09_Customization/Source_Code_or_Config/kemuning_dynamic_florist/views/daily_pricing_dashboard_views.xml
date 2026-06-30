@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- View List Khusus Dasbor Harga Harian (Tabel Excel-like) -->
+    <record id="view_product_template_daily_pricing_list" model="ir.ui.view">
+        <field name="name">product.template.daily.pricing.list</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <tree string="Dasbor Harga Harian" editable="bottom" create="false" delete="false">
+                <header>
+                    <button name="action_apply_daily_prices" 
+                            string="Terapkan Harga Hari Ini" 
+                            type="object" 
+                            class="oe_highlight" 
+                            confirm="Apakah Anda yakin ingin menerapkan semua Harga Jual Hari Ini ke Harga Kasir depan?"/>
+                    <button name="action_clean_demo_data" 
+                            string="Bersihkan Data Demo Odoo" 
+                            type="object" 
+                            class="btn-danger" 
+                            confirm="Peringatan: Tindakan ini akan menghapus semua data transaksi lama, lot, jurnal, dan produk bawaan Odoo (meja, kursi, furnitur) secara permanen. Apakah Anda ingin melanjutkan?"/>
+                </header>
+                <field name="name" readonly="1"/>
+                <field name="standard_price" readonly="1" widget="monetary" string="Harga Modal (Supplier)"/>
+                <field name="daily_market_price" widget="monetary" string="Harga Jual Hari Ini (Fluktuatif)"/>
+                <field name="list_price" widget="monetary" string="Harga Jual Kasir (Aktif)"/>
+                <field name="lifespan_days" string="Masa Layu (Hari)"/>
+                <field name="is_imported" string="Bunga Impor?"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Window Action Dasbor Harga Harian -->
+    <record id="action_daily_pricing_dashboard" model="ir.actions.act_window">
+        <field name="name">Dasbor Harga Harian</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree</field>
+        <!-- Hanya memunculkan produk yang bertipe Bunga Segar -->
+        <field name="domain">[('is_flower', '=', True)]</field>
+        <field name="view_id" ref="view_product_template_daily_pricing_list"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada produk bunga yang terdaftar.
+            </p>
+            <p>
+                Pastikan Anda menandai produk bunga segar dengan mencentang kolom 'Bunga Segar?' di form produk agar muncul di dasbor ini.
+            </p>
+        </field>
+    </record>
+</odoo>

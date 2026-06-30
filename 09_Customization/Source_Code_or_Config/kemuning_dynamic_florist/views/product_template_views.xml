@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Warisan Form View Product Template -->
+    <record id="product_template_form_view_inherit_kemuning" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.kemuning</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Menambahkan field setelah Tipe Produk (detailed_type) -->
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="is_flower"/>
+                <field name="is_imported" invisible="not is_flower"/>
+                <field name="lifespan_days" invisible="not is_flower"/>
+            </xpath>
+            
+            <!-- Menambahkan kolom Harga Pasar Harian setelah Harga Jual Standar -->
+            <xpath expr="//field[@name='list_price']" position="after">
+                <field name="is_flower" invisible="1"/> <!-- Memastikan is_flower ada di subview untuk evaluasi domain -->
+                <field name="daily_market_price" widget="monetary" 
+                       invisible="not is_flower" 
+                       groups="kemuning_dynamic_florist.group_florist_admin,kemuning_dynamic_florist.group_florist_manager"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

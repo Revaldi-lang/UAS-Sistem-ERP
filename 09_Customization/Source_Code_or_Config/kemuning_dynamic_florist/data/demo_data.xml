@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ==================== 1. KATEGORI PRODUK ==================== -->
+        <record id="product_category_flowers" model="product.category">
+            <field name="name">Bunga Segar</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+
+        <record id="product_category_raw" model="product.category">
+            <field name="name">Bahan Baku Florist</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+
+        <record id="product_category_bucket_jadi" model="product.category">
+            <field name="name">Bucket Bunga Jadi</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+
+        <record id="product_category_bucket_custom" model="product.category">
+            <field name="name">Bucket Custom</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+
+        <record id="product_category_paket_spesial" model="product.category">
+            <field name="name">Paket Spesial</field>
+            <field name="parent_id" ref="product.product_category_all"/>
+        </record>
+
+        <!-- ==================== 2. DATA PRODUK BAHAN BAKU (Minimal 3) ==================== -->
+        <!-- Di Odoo 17, mendefinisikan produk sebagai product.template lebih aman untuk relasi template -->
+        <!-- Bahan Baku 1: Mawar Merah -->
+        <record id="product_mawar_merah" model="product.template">
+            <field name="name">Bunga Mawar Merah Lokal</field>
+            <field name="categ_id" ref="product_category_flowers"/>
+            <field name="detailed_type">product</field> <!-- Storable di Odoo 17 -->
+            <field name="is_flower" eval="True"/>
+            <field name="is_imported" eval="False"/>
+            <field name="lifespan_days">3</field>
+            <field name="standard_price">10000.0</field>
+            <field name="daily_market_price">15000.0</field>
+            <field name="list_price">15000.0</field>
+            <field name="tracking">lot</field>
+            <field name="use_expiration_date" eval="True"/>
+        </record>
+
+        <!-- Bahan Baku 2: Lili Kuning -->
+        <record id="product_lili_kuning" model="product.template">
+            <field name="name">Bunga Lili Kuning Lokal</field>
+            <field name="categ_id" ref="product_category_flowers"/>
+            <field name="detailed_type">product</field>
+            <field name="is_flower" eval="True"/>
+            <field name="is_imported" eval="False"/>
+            <field name="lifespan_days">4</field>
+            <field name="standard_price">15000.0</field>
+            <field name="daily_market_price">22000.0</field>
+            <field name="list_price">22000.0</field>
+            <field name="tracking">lot</field>
+            <field name="use_expiration_date" eval="True"/>
+        </record>
+
+        <!-- Bahan Baku 3: Kertas Wrapping -->
+        <record id="product_wrapping_paper" model="product.template">
+            <field name="name">Kertas Wrapping Transparan</field>
+            <field name="categ_id" ref="product_category_raw"/>
+            <field name="detailed_type">product</field>
+            <field name="is_flower" eval="False"/>
+            <field name="standard_price">2000.0</field>
+            <field name="list_price">5000.0</field>
+            <field name="tracking">none</field>
+        </record>
+
+        <!-- Bahan Baku 4: Pita Satin -->
+        <record id="product_pita_satin" model="product.template">
+            <field name="name">Pita Satin Merah (Meter)</field>
+            <field name="categ_id" ref="product_category_raw"/>
+            <field name="detailed_type">product</field>
+            <field name="is_flower" eval="False"/>
+            <field name="standard_price">1000.0</field>
+            <field name="list_price">3000.0</field>
+            <field name="tracking">none</field>
+        </record>
+
+        <!-- ==================== 3. DATA PRODUK JADI (Minimal 2) ==================== -->
+        <!-- Produk Jadi 1: Bucket Mawar Merah -->
+        <record id="product_bucket_mawar_merah" model="product.template">
+            <field name="name">Bucket Bunga Mawar Merah Cantik</field>
+            <field name="categ_id" ref="product_category_bucket_jadi"/>
+            <field name="detailed_type">product</field>
+            <field name="is_flower" eval="False"/>
+            <field name="standard_price">55000.0</field>
+            <field name="list_price">85000.0</field>
+            <field name="tracking">lot</field>
+        </record>
+
+        <!-- Produk Jadi 2: Bucket Lili Kuning -->
+        <record id="product_bucket_lili_kuning" model="product.template">
+            <field name="name">Bucket Bunga Lili Kuning Spesial</field>
+            <field name="categ_id" ref="product_category_bucket_jadi"/>
+            <field name="detailed_type">product</field>
+            <field name="is_flower" eval="False"/>
+            <field name="standard_price">80000.0</field>
+            <field name="list_price">120000.0</field>
+            <field name="tracking">lot</field>
+        </record>
+
+        <!-- ==================== 4. WORK CENTER (Minimal 1) ==================== -->
+        <record id="workcenter_meja_rangkai" model="mrp.workcenter">
+            <field name="name">Meja Perakitan &amp; Rangkaian Bunga</field>
+            <field name="costs_hour">15000.0</field>
+            <field name="time_start">10</field>
+            <field name="time_stop">10</field>
+        </record>
+
+        <!-- ==================== 5. BILL OF MATERIALS / BoM (Minimal 1 per Prod Jadi) ==================== -->
+        <!-- BoM 1: Bucket Mawar Merah -->
+        <record id="bom_bucket_mawar" model="mrp.bom">
+            <field name="product_tmpl_id" ref="product_bucket_mawar_merah"/>
+            <field name="product_qty">1.0</field>
+            <field name="type">normal</field>
+        </record>
+        <!-- Menggunakan query search di XML untuk mencari ID variant (product.product) dari template secara aman -->
+        <record id="bom_line_mawar_1" model="mrp.bom.line">
+            <field name="bom_id" ref="bom_bucket_mawar"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('product_mawar_merah'))]"/>
+            <field name="product_qty">5.0</field>
+        </record>
+        <record id="bom_line_mawar_2" model="mrp.bom.line">
+            <field name="bom_id" ref="bom_bucket_mawar"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('product_wrapping_paper'))]"/>
+            <field name="product_qty">1.0</field>
+        </record>
+        <record id="bom_line_mawar_3" model="mrp.bom.line">
+            <field name="bom_id" ref="bom_bucket_mawar"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('product_pita_satin'))]"/>
+            <field name="product_qty">1.0</field>
+        </record>
+
+        <!-- BoM 2: Bucket Lili Kuning -->
+        <record id="bom_bucket_lili" model="mrp.bom">
+            <field name="product_tmpl_id" ref="product_bucket_lili_kuning"/>
+            <field name="product_qty">1.0</field>
+            <field name="type">normal</field>
+        </record>
+        <record id="bom_line_lili_1" model="mrp.bom.line">
+            <field name="bom_id" ref="bom_bucket_lili"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('product_lili_kuning'))]"/>
+            <field name="product_qty">5.0</field>
+        </record>
+        <record id="bom_line_lili_2" model="mrp.bom.line">
+            <field name="bom_id" ref="bom_bucket_lili"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('product_wrapping_paper'))]"/>
+            <field name="product_qty">1.0</field>
+        </record>
+        <record id="bom_line_lili_3" model="mrp.bom.line">
+            <field name="bom_id" ref="bom_bucket_lili"/>
+            <field name="product_id" search="[('product_tmpl_id', '=', ref('product_pita_satin'))]"/>
+            <field name="product_qty">1.0</field>
+        </record>
+
+        <!-- ==================== 6. DATA SUPPLIER (Minimal 2) ==================== -->
+        <record id="supplier_mawar_nusantara" model="res.partner">
+            <field name="name">Kebun Bunga Mawar Nusantara</field>
+            <field name="is_company" eval="True"/>
+            <field name="supplier_rank">1</field>
+        </record>
+
+        <record id="supplier_wrapping_paper" model="res.partner">
+            <field name="name">Distributor Kertas &amp; Aksesoris Florist</field>
+            <field name="is_company" eval="True"/>
+            <field name="supplier_rank">1</field>
+        </record>
+
+        <!-- ==================== 7. DATA CUSTOMER (Minimal 2) ==================== -->
+        <record id="customer_rina" model="res.partner">
+            <field name="name">Ibu Rina Wijaya</field>
+            <field name="is_company" eval="False"/>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <record id="customer_budi" model="res.partner">
+            <field name="name">Bapak Budi Santoso</field>
+            <field name="is_company" eval="False"/>
+            <field name="customer_rank">1</field>
+        </record>
+
+        <!-- ==================== 8. DATA KARYAWAN (Minimal 3) ==================== -->
+        <record id="employee_ahmad" model="hr.employee">
+            <field name="name">Ahmad Hidayat</field>
+            <field name="job_title">Manajer Utama Toko</field>
+            <field name="work_email">ahmad@kemuningflorist.com</field>
+        </record>
+
+        <record id="employee_siti" model="hr.employee">
+            <field name="name">Siti Aminah</field>
+            <field name="job_title">Staf Pembuat Bucket (Rangkaian)</field>
+            <field name="work_email">siti@kemuningflorist.com</field>
+        </record>
+
+        <record id="employee_dewi" model="hr.employee">
+            <field name="name">Dewi Lestari</field>
+            <field name="job_title">Kasir Shift Depan</field>
+            <field name="work_email">dewi@kemuningflorist.com</field>
+        </record>
+
+        <!-- ==================== 9. QUALITY CONTROL SKENARIO (Minimal 1) ==================== -->
+        <record id="quality_point_mawar" model="qc.quality.point">
+            <field name="name">Inspeksi Kesegaran &amp; Umur Kelopak Bunga Mawar</field>
+            <field name="product_tmpl_id" ref="product_mawar_merah"/>
+            <field name="instruction">Periksa secara visual kelopak bunga mawar, pastikan segar dan bebas hama sebelum dirangkai.</field>
+        </record>
+
+        <!-- ==================== 10. KPI DASHBOARD RECORDS ==================== -->
+        <record id="kpi_total_flowers" model="kemuning.kpi">
+            <field name="name">Total Variasi Bunga</field>
+            <field name="category">inventory</field>
+            <field name="icon">fa-th-large</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="kpi_imported_pct" model="kemuning.kpi">
+            <field name="name">Proporsi Bunga Impor</field>
+            <field name="category">inventory</field>
+            <field name="icon">fa-globe</field>
+            <field name="sequence">2</field>
+        </record>
+
+        <record id="kpi_expiring_soon" model="kemuning.kpi">
+            <field name="name">Bunga Hampir Layu (&lt;= 24 Jam)</field>
+            <field name="category">inventory</field>
+            <field name="icon">fa-exclamation-triangle</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record id="kpi_total_sales" model="kemuning.kpi">
+            <field name="name">Total Penjualan Bunga</field>
+            <field name="category">sales</field>
+            <field name="icon">fa-money</field>
+            <field name="sequence">4</field>
+        </record>
+    </data>
+</odoo>

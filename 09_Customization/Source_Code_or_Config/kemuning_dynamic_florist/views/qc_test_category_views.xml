@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- View List/Tree untuk qc.test.category -->
+    <record id="view_qc_test_category_tree" model="ir.ui.view">
+        <field name="name">qc.test.category.tree</field>
+        <field name="model">qc.test.category</field>
+        <field name="arch" type="xml">
+            <tree string="Kategori Inspeksi QC">
+                <field name="complete_name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- View Form untuk qc.test.category -->
+    <record id="view_qc_test_category_form" model="ir.ui.view">
+        <field name="name">qc.test.category.form</field>
+        <field name="model">qc.test.category</field>
+        <field name="arch" type="xml">
+            <form string="Kategori Inspeksi QC">
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Contoh: Kesegaran Kelopak"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent_id" placeholder="Pilih Kategori Induk..."/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sub-Kategori (Anak)" name="child_categories">
+                            <field name="child_ids">
+                                <tree string="Sub-Kategori" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="complete_name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action Window untuk qc.test.category -->
+    <record id="action_qc_test_category" model="ir.actions.act_window">
+        <field name="name">Kategori Inspeksi QC</field>
+        <field name="res_model">qc.test.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat kategori inspeksi QC pertama Anda.
+            </p>
+            <p>
+                Kategori ini digunakan untuk mengelompokkan jenis pengujian kualitas yang dilakukan di toko bunga.
+            </p>
+        </field>
+    </record>
+</odoo>

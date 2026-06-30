@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Kategori Hak Akses -->
+        <record id="module_category_kemuning_florist" model="ir.module.category">
+            <field name="name">Kemuning Florist</field>
+            <field name="description">Pengaturan Hak Akses Pengguna Toko Bunga Kemuning Florist</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Grup: Kasir -->
+        <record id="group_florist_cashier" model="res.groups">
+            <field name="name">Kasir Depan</field>
+            <field name="category_id" ref="module_category_kemuning_florist"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Kasir hanya dapat menggunakan layar Point of Sale (POS) dan melihat harga harian yang sudah dikunci.</field>
+        </record>
+
+        <!-- Grup: Staf Admin -->
+        <record id="group_florist_admin" model="res.groups">
+            <field name="name">Staf Admin</field>
+            <field name="category_id" ref="module_category_kemuning_florist"/>
+            <field name="implied_ids" eval="[(4, ref('group_florist_cashier'))]"/>
+            <field name="comment">Admin bertugas mengelola pembelian, inventaris gudang, dan memperbarui harga harian di pagi hari.</field>
+        </record>
+
+        <!-- Grup: Pemilik / Manajer Utama -->
+        <record id="group_florist_manager" model="res.groups">
+            <field name="name">Pemilik / Manajer Utama</field>
+            <field name="category_id" ref="module_category_kemuning_florist"/>
+            <field name="implied_ids" eval="[(4, ref('group_florist_admin'))]"/>
+            <field name="comment">Pemilik atau Manajer memiliki hak penuh atas sistem termasuk seluruh laporan keuangan, stok, serta penghapusan data.</field>
+        </record>
+    </data>
+</odoo>

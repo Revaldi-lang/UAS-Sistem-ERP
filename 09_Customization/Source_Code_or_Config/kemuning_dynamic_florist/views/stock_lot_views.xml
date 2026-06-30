@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Warisan List/Tree View Stock Lot -->
+    <record id="view_production_lot_tree_inherit_kemuning" model="ir.ui.view">
+        <field name="name">stock.lot.tree.inherit.kemuning</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+            <!-- Menambahkan dekorasi warna pada baris list dengan xpath OR untuk mendukung tree/list tag Odoo 17 -->
+            <xpath expr="//tree | //list" position="attributes">
+                <attribute name="decoration-danger">is_expired_soon == True</attribute>
+                <attribute name="decoration-warning">days_to_expire &lt;= 3 and days_to_expire &gt; 1</attribute>
+            </xpath>
+
+            <!-- Menambahkan kolom sisa hari setelah tanggal kadaluwarsa -->
+            <xpath expr="//field[@name='expiration_date']" position="after">
+                <field name="days_to_expire" decoration-bf="1"/>
+                <field name="is_expired_soon" column_invisible="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action Pemantauan Umur Bunga (Lots untuk Bunga Segar) -->
+    <record id="action_stock_lot_kemuning" model="ir.actions.act_window">
+        <field name="name">Pemantauan Umur Bunga</field>
+        <field name="res_model">stock.lot</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_id.is_flower', '=', True)]</field>
+        <field name="context">{'search_default_group_by_product': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tidak ada data lot bunga segar.
+            </p>
+            <p>
+                Pastikan Anda telah menyalakan pelacakan Lot/Serial Number pada produk bunga segar Anda.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Utama Modul Kemuning Florist -->
+    <menuitem id="menu_kemuning_florist_root" 
+              name="Kemuning Florist" 
+              web_icon="kemuning_dynamic_florist,static/description/icon.png"
+              sequence="10"/>
+
+    <!-- Menu Samping: Dashboard KPI (Paling atas) -->
+    <menuitem id="menu_kemuning_kpi_dashboard" 
+              name="Dashboard Utama" 
+              parent="menu_kemuning_florist_root" 
+              action="action_kemuning_kpi_dashboard"
+              sequence="5"/>
+
+    <!-- Menu Samping: Dasbor Harga Harian (Hanya untuk Admin dan Manajer) -->
+    <menuitem id="menu_daily_pricing_dashboard" 
+              name="Dasbor Harga Harian" 
+              parent="menu_kemuning_florist_root" 
+              action="action_daily_pricing_dashboard" 
+              groups="group_florist_admin,group_florist_manager"
+              sequence="10"/>
+
+    <!-- Menu Samping: Pemantauan Umur Bunga (Dapat dibuka oleh Kasir untuk melihat status layu) -->
+    <menuitem id="menu_stock_lot_kemuning" 
+              name="Pemantauan Umur Bunga" 
+              parent="menu_kemuning_florist_root" 
+              action="action_stock_lot_kemuning"
+              sequence="20"/>
+
+    <!-- Menu Samping: Laporan Analisis Penjualan WA (Kolektif modul Sales, untuk Admin & Manajer) -->
+    <menuitem id="menu_sale_report_kemuning"
+              name="Laporan Penjualan WA"
+              parent="menu_kemuning_florist_root"
+              action="sale.action_order_report_all"
+              groups="group_florist_admin,group_florist_manager"
+              sequence="30"/>
+
+    <!-- Menu Samping: Laporan Analisis Penjualan Kasir (Kolektif modul POS, untuk Admin & Manajer) -->
+    <menuitem id="menu_pos_report_kemuning"
+              name="Laporan Penjualan Kasir"
+              parent="menu_kemuning_florist_root"
+              action="point_of_sale.action_report_pos_order_all"
+              groups="group_florist_admin,group_florist_manager"
+              sequence="40"/>
+
+    <!-- Menu Samping: Dasbor Analitik BI (Penyatuan Grafik, untuk Admin & Manajer) -->
+    <menuitem id="menu_bi_dashboard_kemuning"
+              name="Dasbor Analitik (BI)"
+              parent="menu_kemuning_florist_root"
+              action="open_board_kemuning_action"
+              groups="group_florist_admin,group_florist_manager"
+              sequence="50"/>
+
+    <!-- Menu Samping: Kategori Inspeksi QC (Untuk Admin & Manajer) -->
+    <menuitem id="menu_qc_test_category" 
+              name="Kategori Inspeksi QC" 
+              parent="menu_kemuning_florist_root" 
+              action="action_qc_test_category"
+              groups="group_florist_admin,group_florist_manager"
+              sequence="60"/>
+
+    <!-- Menu Samping: Titik Kontrol Kualitas (Untuk Admin & Manajer) -->
+    <menuitem id="menu_qc_quality_point" 
+              name="Titik Pemeriksaan QC" 
+              parent="menu_kemuning_florist_root" 
+              action="action_qc_quality_point"
+              groups="group_florist_admin,group_florist_manager"
+              sequence="70"/>
+
+    <!-- Menu Samping: Pemeriksaan Kualitas (Dapat diakses Kasir/Staf untuk meloloskan QC) -->
+    <menuitem id="menu_qc_quality_check" 
+              name="Pemeriksaan Kelayakan QC" 
+              parent="menu_kemuning_florist_root" 
+              action="action_qc_quality_check"
+              sequence="80"/>
+</odoo>
